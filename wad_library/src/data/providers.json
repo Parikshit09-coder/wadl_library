@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ieee",
+    "name": "IEEE Xplore",
+    "shortName": "IEEE",
+    "description": "Access technical literature in engineering and technology including journals, conference proceedings, and standards.",
+    "searchUrl": "https://ieeexplore.ieee.org/search/searchresult.jsp?queryText=",
+    "baseUrl": "https://ieeexplore.ieee.org",
+    "icon": "🔬",
+    "color": "#00629B",
+    "category": "Engineering"
+  },
+  {
+    "id": "scholar",
+    "name": "Google Scholar",
+    "shortName": "Scholar",
+    "description": "Search across many disciplines and sources: articles, theses, books, abstracts and court opinions.",
+    "searchUrl": "https://scholar.google.com/scholar?q=",
+    "baseUrl": "https://scholar.google.com",
+    "icon": "🎓",
+    "color": "#4285F4",
+    "category": "General"
+  },
+  {
+    "id": "acm",
+    "name": "ACM Digital Library",
+    "shortName": "ACM",
+    "description": "The world's largest computing-specific digital library with full-text articles from ACM publications.",
+    "searchUrl": "https://dl.acm.org/action/doSearch?AllField=",
+    "baseUrl": "https://dl.acm.org",
+    "icon": "💻",
+    "color": "#0085CA",
+    "category": "Computer Science"
+  },
+  {
+    "id": "arxiv",
+    "name": "arXiv",
+    "shortName": "arXiv",
+    "description": "Open-access repository of electronic preprints in physics, mathematics, computer science, and more.",
+    "searchUrl": "https://arxiv.org/search/?query=",
+    "baseUrl": "https://arxiv.org",
+    "icon": "📄",
+    "color": "#B31B1B",
+    "category": "Preprints"
+  },
+  {
+    "id": "pubmed",
+    "name": "PubMed",
+    "shortName": "PubMed",
+    "description": "Free search engine accessing primarily the MEDLINE database of references on life sciences and biomedical topics.",
+    "searchUrl": "https://pubmed.ncbi.nlm.nih.gov/?term=",
+    "baseUrl": "https://pubmed.ncbi.nlm.nih.gov",
+    "icon": "🧬",
+    "color": "#20854E",
+    "category": "Biomedical"
+  },
+  {
+    "id": "scopus",
+    "name": "Scopus",
+    "shortName": "Scopus",
+    "description": "The largest abstract and citation database of peer-reviewed literature with smart analytics tools.",
+    "searchUrl": "https://www.scopus.com/results/results.uri?sort=plf-f&src=s&sot=b&sdt=b&sl=15&s=TITLE-ABS-KEY(",
+    "baseUrl": "https://www.scopus.com",
+    "icon": "🔍",
+    "color": "#E9711C",
+    "category": "Multidisciplinary"
+  },
+  {
+    "id": "springer",
+    "name": "SpringerLink",
+    "shortName": "Springer",
+    "description": "Access to millions of scientific documents from journals, books, series, protocols, and reference works.",
+    "searchUrl": "https://link.springer.com/search?query=",
+    "baseUrl": "https://link.springer.com",
+    "icon": "📚",
+    "color": "#0070A8",
+    "category": "Multidisciplinary"
+  },
+  {
+    "id": "researchgate",
+    "name": "ResearchGate",
+    "shortName": "RG",
+    "description": "Professional network for scientists and researchers to share papers, ask questions, and find collaborators.",
+    "searchUrl": "https://www.researchgate.net/search/publication?q=",
+    "baseUrl": "https://www.researchgate.net",
+    "icon": "🌐",
+    "color": "#40BA9B",
+    "category": "Social Research"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "title": "How to Access IEEE Xplore from PICT Library",
+    "description": "Step-by-step guide on logging into IEEE Xplore using your PICT institutional credentials. Learn how to search for conference papers, journals, and standards.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "IEEE",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "8:45",
+    "dateAdded": "2026-03-01"
+  },
+  {
+    "id": 2,
+    "title": "Google Scholar Search Tips & Tricks",
+    "description": "Master Google Scholar with advanced search operators, citation tracking, and setting up alerts for new papers in your research area.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "Google Scholar",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "12:30",
+    "dateAdded": "2026-03-05"
+  },
+  {
+    "id": 3,
+    "title": "Accessing ACM Digital Library Papers",
+    "description": "Complete walkthrough of the ACM Digital Library. Learn to browse proceedings, search by author, and download full-text PDFs with your institutional access.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "ACM",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "10:15",
+    "dateAdded": "2026-03-08"
+  },
+  {
+    "id": 4,
+    "title": "Using Scopus for Literature Review",
+    "description": "How to use Scopus for systematic literature reviews. Find citation metrics, h-index, and export references to citation managers.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "Scopus",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "15:20",
+    "dateAdded": "2026-03-10"
+  },
+  {
+    "id": 5,
+    "title": "arXiv: Finding Preprints for Free",
+    "description": "Navigate arXiv.org to find the latest preprints in computer science, physics, and mathematics. Learn about arXiv categories and RSS feeds.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "arXiv",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "7:50",
+    "dateAdded": "2026-03-12"
+  },
+  {
+    "id": 6,
+    "title": "PubMed for Biomedical Research Papers",
+    "description": "A complete guide to searching PubMed for biomedical literature. Cover MeSH terms, filters, and saving searches for later.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "PubMed",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "11:00",
+    "dateAdded": "2026-03-14"
+  },
+  {
+    "id": 7,
+    "title": "SpringerLink Access Through PICT Portal",
+    "description": "Learn how to access Springer journals and e-books through the PICT library portal. Download chapters and set up reading lists.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "Springer",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "9:30",
+    "dateAdded": "2026-03-15"
+  },
+  {
+    "id": 8,
+    "title": "Reference Management with Zotero",
+    "description": "Set up Zotero for managing your research references. Import papers from IEEE, Google Scholar and generate citations automatically.",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "Tools",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "duration": "14:00",
+    "dateAdded": "2026-03-16"
+  }
+]
