@@ -158,7 +158,14 @@
 }
 
 .checkbox-icon {
-  font-size: 1.2rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 2px;
+  color: var(--navy);
 }
 
 .checkbox-name {
@@ -260,7 +267,14 @@
 }
 
 .result-provider-icon {
-  font-size: 2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 3px;
+  color: var(--navy);
 }
 
 .result-card-header h3 {

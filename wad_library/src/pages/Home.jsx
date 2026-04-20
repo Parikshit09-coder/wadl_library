@@ -1,16 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiSearch, FiPlay, FiBookOpen, FiDatabase, FiUsers, FiArrowRight } from 'react-icons/fi';
-import providers from '../data/providers.json';
-import videosData from '../data/videos.json';
 import VideoCard from '../components/VideoCard';
 import VideoModal from '../components/VideoModal';
+import ProviderLogo from '../components/ProviderLogo';
+import { apiFetch } from '../api';
 import './Home.css';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [providers, setProviders] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [providerData, videoData] = await Promise.all([
+          apiFetch('/providers'),
+          apiFetch('/videos'),
+        ]);
+        setProviders(providerData);
+        setVideos(videoData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -19,12 +42,12 @@ export default function Home() {
     }
   };
 
-  const featuredVideos = videosData.slice(0, 4);
+  const featuredVideos = videos.slice(0, 4);
 
   const stats = [
     { icon: <FiBookOpen />, value: '10M+', label: 'Research Papers' },
-    { icon: <FiDatabase />, value: '8+', label: 'Providers' },
-    { icon: <FiPlay />, value: `${videosData.length}`, label: 'Tutorial Videos' },
+    { icon: <FiDatabase />, value: providers.length.toString(), label: 'Providers' },
+    { icon: <FiPlay />, value: `${videos.length}`, label: 'Tutorial Videos' },
     { icon: <FiUsers />, value: '5000+', label: 'Students Served' },
   ];
 
@@ -118,7 +141,9 @@ export default function Home() {
                 className="provider-card"
                 style={{ '--provider-color': provider.color }}
               >
-                <div className="provider-icon">{provider.icon}</div>
+                <div className="provider-icon-wrap">
+                  <ProviderLogo provider={provider} className="provider-icon" size={40} />
+                </div>
                 <h3>{provider.name}</h3>
                 <p>{provider.description}</p>
                 <span className="provider-category">{provider.category}</span>

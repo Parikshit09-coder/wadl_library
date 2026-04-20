@@ -1,7 +1,0 @@
-[
-  { "id": 1, "email": "admin@pict.edu", "password": "admin123", "role": "admin", "name": "Library Admin" },
-  { "id": 2, "email": "rahul.sharma@pict.edu", "password": "student123", "role": "student", "name": "Rahul Sharma" },
-  { "id": 3, "email": "priya.deshmukh@pict.edu", "password": "faculty123", "role": "faculty", "name": "Dr. Priya Deshmukh" },
-  { "id": 4, "email": "amit.patil@pict.edu", "password": "student456", "role": "student", "name": "Amit Patil" },
-  { "id": 5, "email": "sneha.kulkarni@pict.edu", "password": "student789", "role": "student", "name": "Sneha Kulkarni" }
-]

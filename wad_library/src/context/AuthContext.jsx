@@ -1,17 +1,20 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import usersData from '../data/users.json';
+import { apiFetch } from '../api';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const stored = localStorage.getItem('library_user');
     if (stored) {
       try {
-        setUser(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setUser(parsed.user);
+        setToken(parsed.token);
       } catch {
         localStorage.removeItem('library_user');
       }
@@ -19,28 +22,32 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = (email, password) => {
-    const found = usersData.find(
-      (u) => u.email === email && u.password === password
-    );
-    if (found) {
-      const userData = { id: found.id, email: found.email, name: found.name, role: found.role };
-      setUser(userData);
-      localStorage.setItem('library_user', JSON.stringify(userData));
-      return { success: true, user: userData };
+  const login = async (email, password) => {
+    try {
+      const result = await apiFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+
+      setUser(result.user);
+      setToken(result.token);
+      localStorage.setItem('library_user', JSON.stringify(result));
+      return { success: true, user: result.user };
+    } catch (error) {
+      return { success: false, error: error.message || 'Invalid email or password' };
     }
-    return { success: false, error: 'Invalid email or password' };
   };
 
   const logout = () => {
     setUser(null);
+    setToken(null);
     localStorage.removeItem('library_user');
   };
 
-  const isAdmin = user?.role === 'admin';
+  const isAdmin = Boolean(user);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAdmin, loading }}>
+    <AuthContext.Provider value={{ user, token, login, logout, isAdmin, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,21 +1,31 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FiVideo, FiPlus, FiTrendingUp, FiClock } from 'react-icons/fi';
-import videosData from '../../data/videos.json';
+import { apiFetch } from '../../api';
 import './Admin.css';
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const getVideos = () => {
-    const stored = localStorage.getItem('library_videos');
-    if (stored) {
-      try { return JSON.parse(stored); } catch { return videosData; }
-    }
-    return videosData;
-  };
+  useEffect(() => {
+    const fetchVideos = async () => {
+      setLoading(true);
+      try {
+        const data = await apiFetch('/videos');
+        setVideos(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVideos();
+  }, []);
 
-  const videos = getVideos();
   const categories = [...new Set(videos.map((v) => v.category))];
   const recentVideos = [...videos].sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)).slice(0, 5);
 
@@ -55,46 +65,60 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="admin-section">
-        <h2>Recently Added Videos</h2>
-        <div className="admin-table-wrapper">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Duration</th>
-                <th>Date Added</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentVideos.map((video) => (
-                <tr key={video.id}>
-                  <td className="table-title">{video.title}</td>
-                  <td><span className="table-badge">{video.category}</span></td>
-                  <td>{video.duration}</td>
-                  <td>{video.dateAdded}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {loading ? (
+        <div className="admin-section">
+          <p>Loading dashboard data...</p>
         </div>
-      </div>
+      ) : error ? (
+        <div className="admin-section">
+          <div className="empty-state">
+            <p>{error}</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="admin-section">
+            <h2>Recently Added Videos</h2>
+            <div className="admin-table-wrapper">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Duration</th>
+                    <th>Date Added</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentVideos.map((video) => (
+                    <tr key={video.id}>
+                      <td className="table-title">{video.title}</td>
+                      <td><span className="table-badge">{video.category}</span></td>
+                      <td>{video.duration}</td>
+                      <td>{video.dateAdded}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-      <div className="admin-section">
-        <h2>Categories Overview</h2>
-        <div className="category-chips">
-          {categories.map((cat) => {
-            const count = videos.filter((v) => v.category === cat).length;
-            return (
-              <div className="category-chip" key={cat}>
-                <span className="chip-name">{cat}</span>
-                <span className="chip-count">{count}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+          <div className="admin-section">
+            <h2>Categories Overview</h2>
+            <div className="category-chips">
+              {categories.map((cat) => {
+                const count = videos.filter((v) => v.category === cat).length;
+                return (
+                  <div className="category-chip" key={cat}>
+                    <span className="chip-name">{cat}</span>
+                    <span className="chip-count">{count}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

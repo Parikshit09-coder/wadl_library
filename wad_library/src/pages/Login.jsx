@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FiMail, FiLock, FiLogIn, FiAlertCircle } from 'react-icons/fi';
@@ -12,24 +12,22 @@ export default function Login() {
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
-  if (user) {
-    navigate('/');
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    // Simulate network delay
-    await new Promise((r) => setTimeout(r, 500));
-
-    const result = login(email, password);
+    const result = await login(email, password);
     setLoading(false);
 
     if (result.success) {
-      navigate(result.user.role === 'admin' ? '/admin' : '/');
+      navigate('/admin');
     } else {
       setError(result.error);
     }
@@ -42,9 +40,9 @@ export default function Login() {
           <h1>Welcome to<br /><span className="highlight">PICT Library</span></h1>
           <p>Access research papers from IEEE, Google Scholar, and more. Watch tutorials to learn how to use institutional resources.</p>
           <div className="login-features">
-            <div className="login-feature"><span className="feature-icon">🔍</span><span>Search across 8+ platforms</span></div>
+            <div className="login-feature"><span className="feature-icon">🔍</span><span>Search across multiple platforms</span></div>
             <div className="login-feature"><span className="feature-icon">📹</span><span>Video tutorials for every platform</span></div>
-            <div className="login-feature"><span className="feature-icon">📚</span><span>10M+ research papers access</span></div>
+            <div className="login-feature"><span className="feature-icon">📚</span><span>Secure admin access for video management</span></div>
           </div>
         </div>
       </div>
@@ -52,8 +50,8 @@ export default function Login() {
       <div className="login-right">
         <div className="login-form-container">
           <div className="login-form-header">
-            <h2>Sign In</h2>
-            <p>Enter your PICT credentials to continue</p>
+            <h2>Admin Sign In</h2>
+            <p>Enter admin credentials to manage tutorial videos</p>
           </div>
 
           {error && (
@@ -70,7 +68,7 @@ export default function Login() {
                 <input
                   id="email"
                   type="email"
-                  placeholder="you@pict.edu"
+                  placeholder="you@institution.edu"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -101,18 +99,6 @@ export default function Login() {
               )}
             </button>
           </form>
-
-          <div className="login-demo">
-            <p>Demo Credentials:</p>
-            <div className="demo-creds">
-              <button onClick={() => { setEmail('admin@pict.edu'); setPassword('admin123'); }}>
-                🔑 Admin
-              </button>
-              <button onClick={() => { setEmail('rahul.sharma@pict.edu'); setPassword('student123'); }}>
-                🎓 Student
-              </button>
-            </div>
-          </div>
 
           <div className="login-footer">
             <Link to="/">← Back to Home</Link>

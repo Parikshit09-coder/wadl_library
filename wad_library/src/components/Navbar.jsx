@@ -40,7 +40,7 @@ export default function Navbar() {
               <button className="logout-btn" onClick={handleLogout}><FiLogOut /> Logout</button>
             </li>
           ) : (
-            <li><Link to="/login" className="login-btn" onClick={() => setMenuOpen(false)}>Sign In</Link></li>
+            <li><Link to="/login" className="login-btn" onClick={() => setMenuOpen(false)}>Admin Sign In</Link></li>
           )}
         </ul>
       </div>

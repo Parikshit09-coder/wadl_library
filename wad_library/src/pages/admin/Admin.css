@@ -42,6 +42,54 @@
   text-decoration: underline;
 }
 
+.mode-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-section-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.series-admin-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.series-admin-card {
+  border: 1px solid rgba(27, 42, 74, 0.08);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.series-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.series-admin-header h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1rem;
+}
+
+.series-admin-header p {
+  margin: 0.3rem 0 0;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.series-inline-actions {
+  margin: 0.8rem 0;
+}
+
 /* ===== ADMIN BUTTONS ===== */
 .admin-btn {
   display: inline-flex;
@@ -376,6 +424,13 @@
   text-align: center;
   padding: 3rem;
   color: #888;
+}
+
+@media (max-width: 640px) {
+  .admin-section-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* ===== RESPONSIVE ===== */

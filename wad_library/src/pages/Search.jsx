@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import providers from '../data/providers.json';
 import { FiSearch, FiExternalLink, FiTrendingUp } from 'react-icons/fi';
+import { apiFetch } from '../api';
+import ProviderLogo from '../components/ProviderLogo';
 import './Search.css';
 
 const trendingSearches = [
@@ -22,7 +23,8 @@ const trendingSearches = [
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
-  const [selectedProviders, setSelectedProviders] = useState(providers.map((p) => p.id));
+  const [providers, setProviders] = useState([]);
+  const [selectedProviders, setSelectedProviders] = useState([]);
   const [hasSearched, setHasSearched] = useState(!!searchParams.get('q'));
 
   useEffect(() => {
@@ -32,6 +34,24 @@ export default function Search() {
       setHasSearched(true);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        const data = await apiFetch('/providers');
+        if (Array.isArray(data) && data.length > 0) {
+          setProviders(data);
+          setSelectedProviders(data.map((p) => p.id));
+        } else {
+          setProviders([]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch providers:', error);
+        setProviders([]);
+      }
+    };
+    fetchProviders();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -102,7 +122,7 @@ export default function Search() {
                       checked={selectedProviders.includes(p.id)}
                       onChange={() => toggleProvider(p.id)}
                     />
-                    <span className="checkbox-icon">{p.icon}</span>
+                    <ProviderLogo provider={p} className="checkbox-icon" size={20} />
                     <span className="checkbox-name">{p.shortName}</span>
                   </label>
                 ))}
@@ -136,9 +156,8 @@ export default function Search() {
                 </h2>
                 <div className="results-grid">
                   {activeProviders.map((provider) => {
-                    const searchUrl = provider.id === 'scopus'
-                      ? `${provider.searchUrl}${encodeURIComponent(searchParams.get('q') || '')})`
-                      : `${provider.searchUrl}${encodeURIComponent(searchParams.get('q') || '')}`;
+                    const query = encodeURIComponent(searchParams.get('q') || '');
+                    const searchUrl = `${provider.searchUrl}${query}`;
                     return (
                       <a
                         key={provider.id}
@@ -149,7 +168,7 @@ export default function Search() {
                         style={{ '--pcolor': provider.color }}
                       >
                         <div className="result-card-header">
-                          <span className="result-provider-icon">{provider.icon}</span>
+                          <ProviderLogo provider={provider} className="result-provider-icon" size={32} />
                           <div>
                             <h3>{provider.name}</h3>
                             <span className="result-category">{provider.category}</span>
