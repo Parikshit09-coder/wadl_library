@@ -188,7 +188,7 @@ export default function Videos() {
       {singleVideos.length > 0 && (
         <section className="max-w-7xl mx-auto px-6">
           <h2 className="font-display font-extrabold text-3xl text-academic-900 mb-12 flex items-center gap-4">
-            <span className="w-10 h-[2px] bg-academic-300"></span> Disconnected Modules
+            <span className="w-10 h-[2px] bg-academic-300"></span> Tutorials
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {singleVideos.map(video => (

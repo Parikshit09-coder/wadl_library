@@ -37,6 +37,7 @@ export default function VideoModal({ video, onClose }) {
         <div className="w-full md:w-3/5 aspect-video bg-black shrink-0 relative flex items-center justify-center">
           {videoId ? (
             <iframe
+              key={videoId}
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
               title={video.title}
               className="w-full h-full absolute inset-0"
