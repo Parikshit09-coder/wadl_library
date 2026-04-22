@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: wadl-backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    expose:
+      - "5001"
+    networks:
+      - wadl-net
+
+  frontend:
+    build:
+      context: ./wad_library
+    container_name: wadl-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - wadl-net
+
+networks:
+  wadl-net:
+    driver: bridge

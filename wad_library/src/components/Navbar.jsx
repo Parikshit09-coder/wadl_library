@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FiBook, FiMenu, FiX, FiLogOut, FiUser, FiShield } from 'react-icons/fi';
+import { MdMenu, MdClose, MdLogout, MdPerson, MdAdminPanelSettings, MdLocalLibrary } from 'react-icons/md';
 import { useState } from 'react';
-import './Navbar.css';
 
 export default function Navbar() {
   const { user, isAdmin, logout } = useAuth();
@@ -16,31 +15,33 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-          <FiBook className="logo-icon" />
-          <span className="logo-text">PICT Library</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-academic-200/20">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-4" onClick={() => setMenuOpen(false)}>
+          <div className="w-10 h-10 rounded-xl bg-academic-900 text-white flex items-center justify-center">
+            <MdLocalLibrary size={24} />
+          </div>
+          <span className="font-display font-black text-xl text-academic-900 tracking-tighter uppercase">PICT Library</span>
         </Link>
 
-        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <FiX /> : <FiMenu />}
+        <button className="md:hidden text-academic-900 p-2" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <MdClose size={28} /> : <MdMenu size={28} />}
         </button>
 
-        <ul className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-          <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-          <li><Link to="/videos" onClick={() => setMenuOpen(false)}>Tutorials</Link></li>
-          <li><Link to="/search" onClick={() => setMenuOpen(false)}>Search Papers</Link></li>
+        <ul className={`${menuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row absolute md:static top-20 left-0 w-full md:w-auto bg-white/95 backdrop-blur-xl md:bg-transparent shadow-ambient md:shadow-none p-8 md:p-0 gap-8 items-center text-academic-900 font-bold text-xs uppercase tracking-widest`}>
+          <li><Link to="/" className="hover:text-academic-500 transition-colors" onClick={() => setMenuOpen(false)}>Home</Link></li>
+          <li><Link to="/search" className="hover:text-academic-500 transition-colors" onClick={() => setMenuOpen(false)}>Search Papers</Link></li>
+          <li><Link to="/videos" className="hover:text-academic-500 transition-colors" onClick={() => setMenuOpen(false)}>Tutorials</Link></li>
           {isAdmin && (
-            <li><Link to="/admin" className="admin-link" onClick={() => setMenuOpen(false)}><FiShield /> Admin</Link></li>
+            <li><Link to="/admin" className="flex items-center gap-2 hover:text-academic-500 transition-colors" onClick={() => setMenuOpen(false)}><MdAdminPanelSettings size={18} /> Admin</Link></li>
           )}
           {user ? (
-            <li className="user-section">
-              <span className="user-name"><FiUser /> {user.name}</span>
-              <button className="logout-btn" onClick={handleLogout}><FiLogOut /> Logout</button>
+            <li className="flex items-center gap-4 flex-col md:flex-row mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-none border-academic-100">
+              <span className="flex items-center gap-2 text-academic-500"><MdPerson size={18} /> {user.name}</span>
+              <button className="flex items-center gap-2 hover:text-red-800 transition-colors text-red-600" onClick={handleLogout}><MdLogout size={18} /> Logout</button>
             </li>
           ) : (
-            <li><Link to="/login" className="login-btn" onClick={() => setMenuOpen(false)}>Admin Sign In</Link></li>
+            <li className="mt-4 md:mt-0"><Link to="/login" className="bg-academic-50 text-academic-900 border border-academic-200 hover:border-academic-500 transition-colors px-6 py-3 rounded-full" onClick={() => setMenuOpen(false)}>Admin Log In</Link></li>
           )}
         </ul>
       </div>

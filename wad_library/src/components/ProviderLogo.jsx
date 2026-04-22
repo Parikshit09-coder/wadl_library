@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { FiGlobe } from 'react-icons/fi';
+import { MdLanguage } from 'react-icons/md';
 
 function getHostFromUrl(url) {
   try {
@@ -19,16 +19,15 @@ export default function ProviderLogo({ provider, className = '', size = 32 }) {
   }, [provider?.baseUrl]);
 
   if (!logoUrl || hasError) {
-    return <FiGlobe className={className} size={size} aria-hidden="true" />;
+    return <MdLanguage className={`text-academic-400 ${className}`} size={size} aria-hidden="true" />;
   }
 
   return (
     <img
       src={logoUrl}
       alt={`${provider?.name || 'Provider'} logo`}
-      className={className}
-      width={size}
-      height={size}
+      className={`${className} object-contain rounded`}
+      style={{ width: size, height: size }}
       loading="lazy"
       onError={() => setHasError(true)}
       referrerPolicy="no-referrer"

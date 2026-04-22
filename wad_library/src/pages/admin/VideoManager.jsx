@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { apiFetch, authHeaders } from '../../api';
 import { FiPlus, FiEdit2, FiTrash2, FiArrowLeft, FiX, FiSave, FiFolder, FiFilm } from 'react-icons/fi';
-import './Admin.css';
 
 function getYouTubeThumbnail(url) {
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&\n?#]+)/);
@@ -97,46 +96,20 @@ export default function VideoManager() {
   };
 
   const handleDeleteSingle = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this video?')) {
-      return;
-    }
-
+    if (!window.confirm('Are you sure you want to delete this video?')) return;
     try {
-      await apiFetch(`/videos/${id}`, {
-        method: 'DELETE',
-        headers,
-      });
+      await apiFetch(`/videos/${id}`, { method: 'DELETE', headers });
       setVideos((prev) => prev.filter((video) => video.id !== id));
-    } catch (err) {
-      alert(err.message);
-    }
+    } catch (err) { alert(err.message); }
   };
 
   const handleSubmitSingle = async (e) => {
     e.preventDefault();
-
-    if (!token) {
-      alert('Admin token is required. Please sign in again.');
-      return;
-    }
-
-    // Frontend validation
-    if (!singleForm.title.trim()) {
-      alert('Title is required');
-      return;
-    }
-    if (!singleForm.description.trim()) {
-      alert('Description is required');
-      return;
-    }
-    if (!singleForm.youtubeUrl.trim()) {
-      alert('YouTube URL is required');
-      return;
-    }
-    if (!singleForm.category.trim()) {
-      alert('Category is required');
-      return;
-    }
+    if (!token) { alert('Admin token is required.'); return; }
+    if (!singleForm.title.trim()) { alert('Title is required'); return; }
+    if (!singleForm.description.trim()) { alert('Description is required'); return; }
+    if (!singleForm.youtubeUrl.trim()) { alert('YouTube URL is required'); return; }
+    if (!singleForm.category.trim()) { alert('Category is required'); return; }
 
     const videoPayload = {
       title: singleForm.title.trim(),
@@ -153,117 +126,68 @@ export default function VideoManager() {
 
     try {
       let savedVideo;
-
       if (editingSingleId) {
         savedVideo = await apiFetch(`/videos/${editingSingleId}`, {
-          method: 'PUT',
-          headers,
-          body: JSON.stringify(videoPayload),
+          method: 'PUT', headers, body: JSON.stringify(videoPayload),
         });
         setVideos((prev) => prev.map((video) => (video.id === editingSingleId ? savedVideo : video)));
       } else {
         savedVideo = await apiFetch('/videos', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(videoPayload),
+          method: 'POST', headers, body: JSON.stringify(videoPayload),
         });
         setVideos((prev) => [savedVideo, ...prev]);
       }
-
       resetSingleForm();
-    } catch (err) {
-      alert(err.message);
-    }
+    } catch (err) { alert(err.message); }
   };
 
-  const handleAddSeries = () => {
-    resetSeriesForm();
-    setShowSeriesForm(true);
-  };
-
+  const handleAddSeries = () => { resetSeriesForm(); setShowSeriesForm(true); };
   const handleEditSeries = (series) => {
     setSeriesForm({
-      title: series.title,
-      description: series.description,
-      category: series.category,
-      folderName: series.folderName,
-      coverThumbnail: series.coverThumbnail || '',
+      title: series.title, description: series.description, category: series.category,
+      folderName: series.folderName, coverThumbnail: series.coverThumbnail || '',
     });
     setEditingSeriesId(series.id);
     setShowSeriesForm(true);
   };
 
   const handleDeleteSeries = async (seriesId) => {
-    if (!window.confirm('Delete this tutorial folder and all videos inside it?')) {
-      return;
-    }
-
+    if (!window.confirm('Delete this tutorial folder and all videos inside it?')) return;
     try {
       await apiFetch(`/tutorial-series/${seriesId}`, { method: 'DELETE', headers });
       setSeriesList((prev) => prev.filter((series) => series.id !== seriesId));
-    } catch (err) {
-      alert(err.message);
-    }
+    } catch (err) { alert(err.message); }
   };
 
   const handleSubmitSeries = async (e) => {
     e.preventDefault();
-    if (!token) {
-      alert('Admin token is required. Please sign in again.');
-      return;
-    }
-
+    if (!token) { alert('Admin token is required.'); return; }
     const payload = {
-      title: seriesForm.title.trim(),
-      description: seriesForm.description.trim(),
-      category: seriesForm.category.trim(),
-      folderName: seriesForm.folderName.trim(),
-      coverThumbnail: seriesForm.coverThumbnail.trim(),
+      title: seriesForm.title.trim(), description: seriesForm.description.trim(),
+      category: seriesForm.category.trim(), folderName: seriesForm.folderName.trim(), coverThumbnail: seriesForm.coverThumbnail.trim(),
     };
-
     if (!payload.title || !payload.description || !payload.category || !payload.folderName) {
-      alert('Title, description, category, and folder name are required');
-      return;
+      alert('Title, description, category, and folder name are required'); return;
     }
-
     try {
       let saved;
       if (editingSeriesId) {
-        saved = await apiFetch(`/tutorial-series/${editingSeriesId}`, {
-          method: 'PUT',
-          headers,
-          body: JSON.stringify(payload),
-        });
-        setSeriesList((prev) => prev.map((series) => (series.id === editingSeriesId ? saved : series)));
+        saved = await apiFetch(`/tutorial-series/${editingSeriesId}`, { method: 'PUT', headers, body: JSON.stringify(payload) });
+        setSeriesList((prev) => prev.map((s) => (s.id === editingSeriesId ? saved : s)));
       } else {
-        saved = await apiFetch('/tutorial-series', {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(payload),
-        });
+        saved = await apiFetch('/tutorial-series', { method: 'POST', headers, body: JSON.stringify(payload) });
         setSeriesList((prev) => [saved, ...prev]);
       }
       resetSeriesForm();
-    } catch (err) {
-      alert(err.message);
-    }
+    } catch (err) { alert(err.message); }
   };
 
-  const openAddSeriesVideo = (series) => {
-    resetSeriesVideoForm();
-    setSelectedSeries(series);
-    setShowSeriesVideoForm(true);
-  };
-
+  const openAddSeriesVideo = (series) => { resetSeriesVideoForm(); setSelectedSeries(series); setShowSeriesVideoForm(true); };
   const openEditSeriesVideo = (series, video) => {
     setSelectedSeries(series);
     setSeriesVideoForm({
-      title: video.title,
-      description: video.description,
-      youtubeUrl: video.youtubeUrl,
-      thumbnail: video.thumbnail || '',
-      duration: video.duration || '',
-      order: String(video.order ?? 0),
+      title: video.title, description: video.description, youtubeUrl: video.youtubeUrl,
+      thumbnail: video.thumbnail || '', duration: video.duration || '', order: String(video.order ?? 0),
     });
     setEditingSeriesVideoId(video.id);
     setShowSeriesVideoForm(true);
@@ -271,389 +195,261 @@ export default function VideoManager() {
 
   const handleSubmitSeriesVideo = async (e) => {
     e.preventDefault();
-    if (!token || !selectedSeries) {
-      alert('Admin token is required. Please sign in again.');
-      return;
-    }
-
+    if (!token || !selectedSeries) { alert('Admin token required'); return; }
     const payload = {
-      title: seriesVideoForm.title.trim(),
-      description: seriesVideoForm.description.trim(),
-      youtubeUrl: seriesVideoForm.youtubeUrl.trim(),
-      thumbnail: seriesVideoForm.thumbnail.trim(),
-      duration: seriesVideoForm.duration.trim(),
-      order: Number(seriesVideoForm.order) || 0,
+      title: seriesVideoForm.title.trim(), description: seriesVideoForm.description.trim(),
+      youtubeUrl: seriesVideoForm.youtubeUrl.trim(), thumbnail: seriesVideoForm.thumbnail.trim(),
+      duration: seriesVideoForm.duration.trim(), order: Number(seriesVideoForm.order) || 0,
     };
-
-    if (!payload.title || !payload.description || !payload.youtubeUrl) {
-      alert('Title, description, and YouTube URL are required');
-      return;
-    }
-
-    if (!payload.thumbnail) {
-      payload.thumbnail = getYouTubeThumbnail(payload.youtubeUrl);
-    }
+    if (!payload.title || !payload.description || !payload.youtubeUrl) { alert('Required fields missing'); return; }
+    if (!payload.thumbnail) payload.thumbnail = getYouTubeThumbnail(payload.youtubeUrl);
 
     try {
-      const path = editingSeriesVideoId
-        ? `/tutorial-series/${selectedSeries.id}/videos/${editingSeriesVideoId}`
-        : `/tutorial-series/${selectedSeries.id}/videos`;
-
+      const path = editingSeriesVideoId ? `/tutorial-series/${selectedSeries.id}/videos/${editingSeriesVideoId}` : `/tutorial-series/${selectedSeries.id}/videos`;
       const method = editingSeriesVideoId ? 'PUT' : 'POST';
-
-      const updatedSeries = await apiFetch(path, {
-        method,
-        headers,
-        body: JSON.stringify(payload),
-      });
-
-      setSeriesList((prev) => prev.map((series) => (series.id === selectedSeries.id ? updatedSeries : series)));
+      const updatedSeries = await apiFetch(path, { method, headers, body: JSON.stringify(payload) });
+      setSeriesList((prev) => prev.map((s) => (s.id === selectedSeries.id ? updatedSeries : s)));
       resetSeriesVideoForm();
-    } catch (err) {
-      alert(err.message);
-    }
+    } catch (err) { alert(err.message); }
   };
 
   const handleDeleteSeriesVideo = async (series, videoId) => {
-    if (!window.confirm('Delete this video from the tutorial folder?')) {
-      return;
-    }
-
+    if (!window.confirm('Delete this video from the folder?')) return;
     try {
-      const updatedSeries = await apiFetch(`/tutorial-series/${series.id}/videos/${videoId}`, {
-        method: 'DELETE',
-        headers,
-      });
+      const updatedSeries = await apiFetch(`/tutorial-series/${series.id}/videos/${videoId}`, { method: 'DELETE', headers });
       setSeriesList((prev) => prev.map((entry) => (entry.id === series.id ? updatedSeries : entry)));
-    } catch (err) {
-      alert(err.message);
-    }
+    } catch (err) { alert(err.message); }
   };
 
-  const handleChange = (field, value) => {
-    setSingleForm((prev) => ({ ...prev, [field]: value }));
-  };
+  // Reusable input component helper
+  const renderInput = (label, value, setter, required, placeholder = '', type="text") => (
+    <div className="mb-4">
+      <label className="block text-sm font-bold text-academic-900 mb-2">{label} {required && '*'}</label>
+      {type === 'textarea' ? (
+        <textarea className="w-full bg-academic-50 border border-academic-200 rounded-xl px-4 py-3 outline-none focus:border-academic-500" value={value} onChange={e => setter(e.target.value)} placeholder={placeholder} required={required} rows={3} />
+      ) : (
+        <input type={type} className="w-full bg-academic-50 border border-academic-200 rounded-xl px-4 py-3 outline-none focus:border-academic-500" value={value} onChange={e => setter(e.target.value)} placeholder={placeholder} required={required} />
+      )}
+    </div>
+  );
 
   return (
-    <div className="admin-page">
-      <div className="admin-header">
-        <div>
-          <Link to="/admin" className="back-link"><FiArrowLeft /> Back to Dashboard</Link>
-          <h1>Video Manager</h1>
-          <p>Create single videos or folder-based tutorial series with full CRUD metadata</p>
-        </div>
-        <div className="mode-actions">
-          <button className={`admin-btn ${activeMode === 'single' ? 'primary' : 'secondary'}`} onClick={() => setActiveMode('single')}>
-            <FiFilm /> Single Videos
-          </button>
-          <button className={`admin-btn ${activeMode === 'series' ? 'primary' : 'secondary'}`} onClick={() => setActiveMode('series')}>
-            <FiFolder /> Tutorial Folders
-          </button>
-        </div>
-      </div>
-
-      {loading ? (
-        <div className="admin-section">
-          <p>Loading videos...</p>
-        </div>
-      ) : error ? (
-        <div className="admin-section">
-          <div className="empty-state">
-            <p>{error}</p>
+    <div className="min-h-screen bg-academic-50 pt-28 pb-32">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Header */}
+        <div className="mb-8">
+          <Link to="/admin" className="inline-flex items-center gap-2 text-academic-500 hover:text-academic-900 font-bold mb-6 transition-colors">
+            <FiArrowLeft /> Back to Dashboard
+          </Link>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-[2rem] p-8 shadow-ambient border border-academic-100">
+            <div>
+              <h1 className="font-display font-extrabold text-4xl text-academic-900 mb-2">Video Manager</h1>
+              <p className="text-academic-500 font-medium tracking-wide">Manage Single Videos and Tutorial Folders from this panel.</p>
+            </div>
+            <div className="flex bg-academic-50 p-1.5 rounded-full mt-6 md:mt-0 border border-academic-100">
+              <button 
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold transition-all ${activeMode === 'single' ? 'bg-white shadow text-academic-900' : 'text-academic-400 hover:text-academic-900'}`}
+                onClick={() => setActiveMode('single')}
+              ><FiFilm size={18}/> Single Videos</button>
+              <button 
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold transition-all ${activeMode === 'series' ? 'bg-white shadow text-academic-900' : 'text-academic-400 hover:text-academic-900'}`}
+                onClick={() => setActiveMode('series')}
+              ><FiFolder size={18}/> Tutorial Folders</button>
+            </div>
           </div>
         </div>
-      ) : (
-        <>
-          {showSingleForm && (
-            <div className="admin-modal-backdrop" onClick={resetSingleForm}>
-              <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-                <div className="admin-modal-header">
-                  <h2>{editingSingleId ? 'Edit Video' : 'Add New Video'}</h2>
-                  <button className="modal-close" onClick={resetSingleForm}><FiX /></button>
+
+        {loading ? (
+           <div className="bg-white rounded-[2rem] p-12 text-center shadow-ambient border border-academic-100 text-academic-500 font-bold">Loading...</div>
+        ) : error ? (
+           <div className="bg-red-50 text-red-800 rounded-[2rem] p-12 text-center border border-red-200 font-bold">{error}</div>
+        ) : (
+          <>
+            {/* Modal Templates */}
+            {showSingleForm && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-academic-900/40 backdrop-blur-sm" onClick={resetSingleForm}>
+                <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-ambient overflow-hidden" onClick={e => e.stopPropagation()}>
+                  <div className="p-6 border-b border-academic-100 flex justify-between items-center bg-academic-50">
+                    <h2 className="font-display font-bold text-2xl text-academic-900">{editingSingleId ? 'Edit Single Video' : 'Add Single Video'}</h2>
+                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-academic-500 hover:text-academic-900 shadow-sm" onClick={resetSingleForm}><FiX size={20}/></button>
+                  </div>
+                  <form onSubmit={handleSubmitSingle} className="p-8">
+                    {renderInput('Title', singleForm.title, v => setSingleForm(p => ({...p, title: v})), true)}
+                    {renderInput('Description', singleForm.description, v => setSingleForm(p => ({...p, description: v})), true, '', 'textarea')}
+                    <div className="grid grid-cols-2 gap-4">
+                      {renderInput('YouTube URL', singleForm.youtubeUrl, v => setSingleForm(p => ({...p, youtubeUrl: v})), true)}
+                      {renderInput('Category', singleForm.category, v => setSingleForm(p => ({...p, category: v})), true)}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      {renderInput('Thumbnail URL', singleForm.thumbnail, v => setSingleForm(p => ({...p, thumbnail: v})), false)}
+                      {renderInput('Duration', singleForm.duration, v => setSingleForm(p => ({...p, duration: v})), false)}
+                    </div>
+                    <div className="flex justify-end gap-3 pt-4">
+                      <button type="button" className="px-6 py-3 font-bold text-academic-500 hover:text-academic-900 bg-academic-50 hover:bg-academic-100 rounded-xl" onClick={resetSingleForm}>Cancel</button>
+                      <button type="submit" className="px-6 py-3 font-bold text-white bg-academic-900 hover:bg-academic-800 rounded-xl flex items-center gap-2"><FiSave/> Save Video</button>
+                    </div>
+                  </form>
                 </div>
-                <form onSubmit={handleSubmitSingle} className="admin-form">
-                  <div className="form-group">
-                    <label>Title *</label>
-                    <input
-                      type="text"
-                      value={singleForm.title}
-                      onChange={(e) => handleChange('title', e.target.value)}
-                      placeholder="e.g., How to Access IEEE Xplore"
-                      required
-                      id="video-title-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Description *</label>
-                    <textarea
-                      value={singleForm.description}
-                      onChange={(e) => handleChange('description', e.target.value)}
-                      placeholder="Describe what this tutorial covers..."
-                      rows={3}
-                      required
-                      id="video-desc-input"
-                    />
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>YouTube URL *</label>
-                      <input
-                        type="text"
-                        value={singleForm.youtubeUrl}
-                        onChange={(e) => handleChange('youtubeUrl', e.target.value)}
-                        placeholder="https://www.youtube.com/watch?v=..."
-                        required
-                        id="video-url-input"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Category *</label>
-                      <input
-                        type="text"
-                        value={singleForm.category}
-                        onChange={(e) => handleChange('category', e.target.value)}
-                        placeholder="e.g., IEEE, Google Scholar"
-                        required
-                        id="video-category-input"
-                      />
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>Thumbnail URL</label>
-                      <input
-                        type="text"
-                        value={singleForm.thumbnail}
-                        onChange={(e) => handleChange('thumbnail', e.target.value)}
-                        placeholder="Auto-generated from YouTube URL"
-                        id="video-thumb-input"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Duration</label>
-                      <input
-                        type="text"
-                        value={singleForm.duration}
-                        onChange={(e) => handleChange('duration', e.target.value)}
-                        placeholder="e.g., 10:30"
-                        id="video-duration-input"
-                      />
-                    </div>
-                  </div>
-                  <div className="form-actions">
-                    <button type="button" className="admin-btn secondary" onClick={resetSingleForm}>Cancel</button>
-                    <button type="submit" className="admin-btn primary" id="save-video-btn">
-                      <FiSave /> {editingSingleId ? 'Update Video' : 'Add Video'}
-                    </button>
-                  </div>
-                </form>
               </div>
-            </div>
-          )}
+            )}
 
-          {showSeriesForm && (
-            <div className="admin-modal-backdrop" onClick={resetSeriesForm}>
-              <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-                <div className="admin-modal-header">
-                  <h2>{editingSeriesId ? 'Edit Tutorial Folder' : 'Add Tutorial Folder'}</h2>
-                  <button className="modal-close" onClick={resetSeriesForm}><FiX /></button>
+            {showSeriesForm && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-academic-900/40 backdrop-blur-sm" onClick={resetSeriesForm}>
+                <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-ambient overflow-hidden" onClick={e => e.stopPropagation()}>
+                  <div className="p-6 border-b border-academic-100 flex justify-between items-center bg-academic-50">
+                    <h2 className="font-display font-bold text-2xl text-academic-900">{editingSeriesId ? 'Edit Tutorial Folder' : 'Create Tutorial Folder'}</h2>
+                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-academic-500 hover:text-academic-900 shadow-sm" onClick={resetSeriesForm}><FiX size={20}/></button>
+                  </div>
+                  <form onSubmit={handleSubmitSeries} className="p-8">
+                    {renderInput('Folder Label', seriesForm.folderName, v => setSeriesForm(p => ({...p, folderName: v})), true)}
+                    <div className="grid grid-cols-2 gap-4">
+                      {renderInput('Series Title', seriesForm.title, v => setSeriesForm(p => ({...p, title: v})), true)}
+                      {renderInput('Category', seriesForm.category, v => setSeriesForm(p => ({...p, category: v})), true)}
+                    </div>
+                    {renderInput('Description', seriesForm.description, v => setSeriesForm(p => ({...p, description: v})), true, '', 'textarea')}
+                    {renderInput('Cover Thumbnail URL', seriesForm.coverThumbnail, v => setSeriesForm(p => ({...p, coverThumbnail: v})), false)}
+                    <div className="flex justify-end gap-3 pt-4">
+                      <button type="button" className="px-6 py-3 font-bold text-academic-500 hover:text-academic-900 bg-academic-50 hover:bg-academic-100 rounded-xl" onClick={resetSeriesForm}>Cancel</button>
+                      <button type="submit" className="px-6 py-3 font-bold text-white bg-academic-900 hover:bg-academic-800 rounded-xl flex items-center gap-2"><FiSave/> Save Folder</button>
+                    </div>
+                  </form>
                 </div>
-                <form onSubmit={handleSubmitSeries} className="admin-form">
-                  <div className="form-group">
-                    <label>Folder Name *</label>
-                    <input value={seriesForm.folderName} onChange={(e) => setSeriesForm((prev) => ({ ...prev, folderName: e.target.value }))} required />
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>Series Title *</label>
-                      <input value={seriesForm.title} onChange={(e) => setSeriesForm((prev) => ({ ...prev, title: e.target.value }))} required />
-                    </div>
-                    <div className="form-group">
-                      <label>Category *</label>
-                      <input value={seriesForm.category} onChange={(e) => setSeriesForm((prev) => ({ ...prev, category: e.target.value }))} required />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label>Description *</label>
-                    <textarea rows={3} value={seriesForm.description} onChange={(e) => setSeriesForm((prev) => ({ ...prev, description: e.target.value }))} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Cover Thumbnail URL</label>
-                    <input value={seriesForm.coverThumbnail} onChange={(e) => setSeriesForm((prev) => ({ ...prev, coverThumbnail: e.target.value }))} />
-                  </div>
-                  <div className="form-actions">
-                    <button type="button" className="admin-btn secondary" onClick={resetSeriesForm}>Cancel</button>
-                    <button type="submit" className="admin-btn primary"><FiSave /> {editingSeriesId ? 'Update Folder' : 'Create Folder'}</button>
-                  </div>
-                </form>
               </div>
-            </div>
-          )}
+            )}
 
-          {showSeriesVideoForm && (
-            <div className="admin-modal-backdrop" onClick={resetSeriesVideoForm}>
-              <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-                <div className="admin-modal-header">
-                  <h2>{editingSeriesVideoId ? 'Edit Folder Video' : `Add Video to ${selectedSeries?.folderName || ''}`}</h2>
-                  <button className="modal-close" onClick={resetSeriesVideoForm}><FiX /></button>
+            {showSeriesVideoForm && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-academic-900/40 backdrop-blur-sm" onClick={resetSeriesVideoForm}>
+                <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-ambient overflow-hidden" onClick={e => e.stopPropagation()}>
+                   <div className="p-6 border-b border-academic-100 flex justify-between items-center bg-academic-50">
+                    <h2 className="font-display font-bold text-2xl text-academic-900">{editingSeriesVideoId ? 'Edit Video in Folder' : `Add Video to ${selectedSeries?.folderName}`}</h2>
+                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-academic-500 hover:text-academic-900 shadow-sm" onClick={resetSeriesVideoForm}><FiX size={20}/></button>
+                  </div>
+                  <form onSubmit={handleSubmitSeriesVideo} className="p-8">
+                    {renderInput('Title', seriesVideoForm.title, v => setSeriesVideoForm(p => ({...p, title: v})), true)}
+                    {renderInput('Description', seriesVideoForm.description, v => setSeriesVideoForm(p => ({...p, description: v})), true, '', 'textarea')}
+                    <div className="grid grid-cols-2 gap-4">
+                      {renderInput('YouTube URL', seriesVideoForm.youtubeUrl, v => setSeriesVideoForm(p => ({...p, youtubeUrl: v})), true)}
+                      {renderInput('Duration', seriesVideoForm.duration, v => setSeriesVideoForm(p => ({...p, duration: v})), false)}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      {renderInput('Thumbnail URL', seriesVideoForm.thumbnail, v => setSeriesVideoForm(p => ({...p, thumbnail: v})), false)}
+                      {renderInput('Order Priority', seriesVideoForm.order, v => setSeriesVideoForm(p => ({...p, order: v})), false, '0', 'number')}
+                    </div>
+                    <div className="flex justify-end gap-3 pt-4">
+                      <button type="button" className="px-6 py-3 font-bold text-academic-500 hover:text-academic-900 bg-academic-50 hover:bg-academic-100 rounded-xl" onClick={resetSeriesVideoForm}>Cancel</button>
+                      <button type="submit" className="px-6 py-3 font-bold text-white bg-academic-900 hover:bg-academic-800 rounded-xl flex items-center gap-2"><FiSave/> Save Video</button>
+                    </div>
+                  </form>
                 </div>
-                <form onSubmit={handleSubmitSeriesVideo} className="admin-form">
-                  <div className="form-group">
-                    <label>Title *</label>
-                    <input value={seriesVideoForm.title} onChange={(e) => setSeriesVideoForm((prev) => ({ ...prev, title: e.target.value }))} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Description *</label>
-                    <textarea rows={3} value={seriesVideoForm.description} onChange={(e) => setSeriesVideoForm((prev) => ({ ...prev, description: e.target.value }))} required />
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>YouTube URL *</label>
-                      <input value={seriesVideoForm.youtubeUrl} onChange={(e) => setSeriesVideoForm((prev) => ({ ...prev, youtubeUrl: e.target.value }))} required />
-                    </div>
-                    <div className="form-group">
-                      <label>Duration</label>
-                      <input value={seriesVideoForm.duration} onChange={(e) => setSeriesVideoForm((prev) => ({ ...prev, duration: e.target.value }))} />
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>Thumbnail URL</label>
-                      <input value={seriesVideoForm.thumbnail} onChange={(e) => setSeriesVideoForm((prev) => ({ ...prev, thumbnail: e.target.value }))} />
-                    </div>
-                    <div className="form-group">
-                      <label>Order</label>
-                      <input type="number" min="0" value={seriesVideoForm.order} onChange={(e) => setSeriesVideoForm((prev) => ({ ...prev, order: e.target.value }))} />
-                    </div>
-                  </div>
-                  <div className="form-actions">
-                    <button type="button" className="admin-btn secondary" onClick={resetSeriesVideoForm}>Cancel</button>
-                    <button type="submit" className="admin-btn primary"><FiSave /> {editingSeriesVideoId ? 'Update Video' : 'Add Video'}</button>
-                  </div>
-                </form>
               </div>
-            </div>
-          )}
+            )}
 
-          {activeMode === 'single' ? (
-            <div className="admin-section">
-              <div className="admin-section-toolbar">
-                <h2>Single Tutorial Videos</h2>
-                <button className="admin-btn primary" onClick={handleAddSingle} id="add-video-btn">
-                  <FiPlus /> Add Video
-                </button>
-              </div>
-              <div className="admin-table-wrapper">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Thumbnail</th>
-                      <th>Title</th>
-                      <th>Category</th>
-                      <th>Duration</th>
-                      <th>Date</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {videos.map((video) => (
-                      <tr key={video.id}>
-                        <td>
-                          <img src={video.thumbnail} alt="" className="table-thumb" />
-                        </td>
-                        <td className="table-title">{video.title}</td>
-                        <td><span className="table-badge">{video.category}</span></td>
-                        <td>{video.duration}</td>
-                        <td>{video.dateAdded}</td>
-                        <td>
-                          <div className="table-actions">
-                            <button className="action-btn edit" onClick={() => handleEditSingle(video)} title="Edit">
-                              <FiEdit2 />
-                            </button>
-                            <button className="action-btn delete" onClick={() => handleDeleteSingle(video.id)} title="Delete">
-                              <FiTrash2 />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {videos.length === 0 && (
-                <div className="empty-state">
-                  <p>No single videos yet. Click "Add Video" to get started.</p>
+            {/* Content Lists */}
+            {activeMode === 'single' ? (
+              <div className="bg-white rounded-[2rem] shadow-ambient border border-academic-100 overflow-hidden">
+                <div className="p-8 border-b border-academic-100 flex justify-between items-center bg-academic-50/50">
+                  <h2 className="font-display font-bold text-2xl text-academic-900">Single Videos</h2>
+                  <button className="bg-academic-900 hover:bg-academic-800 text-white font-bold px-6 py-2.5 rounded-full transition-colors flex items-center gap-2" onClick={handleAddSingle}>
+                    <FiPlus /> Add Single Video
+                  </button>
                 </div>
-              )}
-            </div>
-          ) : (
-            <div className="admin-section">
-              <div className="admin-section-toolbar">
-                <h2>Tutorial Folders (Series)</h2>
-                <button className="admin-btn primary" onClick={handleAddSeries}>
-                  <FiPlus /> Add Folder
-                </button>
-              </div>
-
-              <div className="series-admin-list">
-                {seriesList.map((series) => (
-                  <div className="series-admin-card" key={series.id}>
-                    <div className="series-admin-header">
-                      <div>
-                        <h3>{series.folderName}</h3>
-                        <p>{series.title} | {series.category} | {series.videos.length} videos</p>
-                      </div>
-                      <div className="table-actions">
-                        <button className="action-btn edit" onClick={() => handleEditSeries(series)} title="Edit Folder"><FiEdit2 /></button>
-                        <button className="action-btn delete" onClick={() => handleDeleteSeries(series.id)} title="Delete Folder"><FiTrash2 /></button>
-                      </div>
-                    </div>
-
-                    <div className="series-inline-actions">
-                      <button className="admin-btn secondary" onClick={() => openAddSeriesVideo(series)}><FiPlus /> Add Video to Folder</button>
-                    </div>
-
-                    <div className="admin-table-wrapper">
-                      <table className="admin-table">
-                        <thead>
-                          <tr>
-                            <th>Video Title</th>
-                            <th>Duration</th>
-                            <th>Order</th>
-                            <th>Actions</th>
+                
+                {videos.length === 0 ? (
+                  <div className="p-16 text-center text-academic-500 font-bold">No single videos yet. Click "Add Single Video".</div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-academic-50/50">
+                          <th className="p-6 font-bold text-xs uppercase tracking-widest text-academic-500">Thumbnail</th>
+                          <th className="p-6 font-bold text-xs uppercase tracking-widest text-academic-500">Video Data</th>
+                          <th className="p-6 font-bold text-xs uppercase tracking-widest text-academic-500 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {videos.map((video) => (
+                          <tr key={video.id} className="border-b border-academic-100 hover:bg-academic-50 transition-colors">
+                            <td className="p-6 w-32">
+                              <img src={video.thumbnail} alt="" className="w-24 h-16 object-cover bg-academic-200 rounded-xl shadow-sm" />
+                            </td>
+                            <td className="p-6">
+                              <h3 className="font-bold text-academic-900 text-lg mb-1">{video.title}</h3>
+                              <p className="text-academic-500 text-sm mb-2">{video.duration} • Added {video.dateAdded}</p>
+                              <span className="bg-academic-100 text-academic-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">{video.category}</span>
+                            </td>
+                            <td className="p-6 text-right">
+                              <button className="w-10 h-10 inline-flex items-center justify-center bg-white border border-academic-200 rounded-xl text-academic-500 hover:text-academic-900 shadow-sm mr-2" onClick={() => handleEditSingle(video)}><FiEdit2/></button>
+                              <button className="w-10 h-10 inline-flex items-center justify-center bg-red-50 border border-red-100 rounded-xl text-red-600 hover:bg-red-600 hover:text-white transition-colors shadow-sm" onClick={() => handleDeleteSingle(video.id)}><FiTrash2/></button>
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {(series.videos || []).map((video) => (
-                            <tr key={video.id}>
-                              <td className="table-title">{video.title}</td>
-                              <td>{video.duration || '-'}</td>
-                              <td>{video.order ?? 0}</td>
-                              <td>
-                                <div className="table-actions">
-                                  <button className="action-btn edit" onClick={() => openEditSeriesVideo(series, video)} title="Edit Video"><FiEdit2 /></button>
-                                  <button className="action-btn delete" onClick={() => handleDeleteSeriesVideo(series, video.id)} title="Delete Video"><FiTrash2 /></button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                ))}
+                )}
               </div>
+            ) : (
+              <div className="space-y-8">
+                 <div className="flex justify-end">
+                    <button className="bg-academic-900 hover:bg-academic-800 text-white font-bold px-8 py-3 rounded-full transition-colors flex items-center gap-2 shadow-ambient" onClick={handleAddSeries}>
+                      <FiPlus /> New Tutorial Folder
+                    </button>
+                 </div>
+                 
+                 {seriesList.length === 0 ? (
+                   <div className="bg-white rounded-[2rem] p-16 text-center text-academic-500 border border-academic-100 font-bold shadow-ambient">No tutorial folders yet.</div>
+                 ) : (
+                   seriesList.map((series) => (
+                     <div className="bg-white rounded-[2rem] shadow-ambient border border-academic-100 overflow-hidden" key={series.id}>
+                        <div className="p-8 border-b border-academic-100 bg-academic-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                          <div>
+                            <span className="bg-academic-200 text-academic-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">{series.category}</span>
+                            <h2 className="font-display font-extrabold text-3xl text-academic-900 mt-3 mb-1">{series.folderName}</h2>
+                            <p className="text-academic-500 font-medium">{series.title} • {series.videos?.length || 0} Videos</p>
+                          </div>
+                          <div className="flex gap-2">
+                             <button className="bg-white hover:bg-academic-100 border border-academic-200 px-5 py-2.5 rounded-xl font-bold text-academic-600 text-sm flex items-center gap-2" onClick={() => openAddSeriesVideo(series)}><FiPlus/> Add Video</button>
+                             <button className="w-10 h-10 inline-flex items-center justify-center bg-white border border-academic-200 rounded-xl text-academic-500 hover:text-academic-900 shadow-sm" onClick={() => handleEditSeries(series)}><FiEdit2/></button>
+                             <button className="w-10 h-10 inline-flex items-center justify-center bg-red-50 border border-red-100 rounded-xl text-red-600 hover:bg-red-600 hover:text-white transition-colors shadow-sm" onClick={() => handleDeleteSeries(series.id)}><FiTrash2/></button>
+                          </div>
+                        </div>
 
-              {seriesList.length === 0 && (
-                <div className="empty-state">
-                  <p>No tutorial folders yet. Click "Add Folder" to create a series.</p>
-                </div>
-              )}
-            </div>
-          )}
-        </>
-      )}
+                        {series.videos && series.videos.length > 0 ? (
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                              <tbody>
+                                {series.videos.map((video) => (
+                                  <tr key={video.id} className="border-b border-academic-50 last:border-none hover:bg-academic-50/50 transition-colors">
+                                    <td className="p-6 pl-8">
+                                      <div className="flex items-center gap-6">
+                                        <div className="w-8 h-8 rounded-full bg-academic-100 text-academic-500 flex justify-center items-center font-bold text-xs shrink-0">{video.order ?? 0}</div>
+                                        <div>
+                                          <h4 className="font-bold text-academic-900">{video.title}</h4>
+                                          <span className="text-academic-400 text-sm">{video.duration}</span>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td className="p-6 pr-8 text-right">
+                                      <button className="w-8 h-8 inline-flex items-center justify-center bg-white border border-academic-200 rounded-lg text-academic-400 hover:text-academic-900 mr-2" onClick={() => openEditSeriesVideo(series, video)}><FiEdit2 size={14}/></button>
+                                      <button className="w-8 h-8 inline-flex items-center justify-center bg-white border border-red-100 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600" onClick={() => handleDeleteSeriesVideo(series, video.id)}><FiTrash2 size={14}/></button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        ) : (
+                          <div className="p-8 text-center text-academic-400 text-sm italic">No videos in this folder.</div>
+                        )}
+                     </div>
+                   ))
+                 )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

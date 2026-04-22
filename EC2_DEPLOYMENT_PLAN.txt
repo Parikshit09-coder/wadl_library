@@ -1,0 +1,46 @@
+EC2 Single-Instance Deployment Plan (Frontend + Backend + Nginx + PM2)
+
+1) Architecture
+- Frontend container: Nginx serves built React app on port 80.
+- Backend container: Node.js app runs with PM2 (pm2-runtime) on port 5001.
+- Nginx reverse proxy in frontend container forwards /api/* to backend:5001.
+- Both containers run on one EC2 instance via Docker Compose network.
+
+2) Required EC2 setup
+- Install Docker and Docker Compose plugin.
+- Open security group inbound rules:
+  - 22 (SSH) from your IP
+  - 80 (HTTP) from internet
+  - 443 (HTTPS) optional if SSL is added later
+
+3) Project configuration
+- Keep backend secrets in backend/.env (do not hardcode secrets in Dockerfiles).
+- Ensure backend/.env has:
+  - MONGO_URI
+  - JWT_SECRET
+  - ADMIN_EMAIL
+  - ADMIN_PASSWORD
+  - ADMIN_NAME
+
+4) Build and run
+- From repo root:
+  docker compose -f docker-compose.ec2.yml up -d --build
+
+5) Verify
+- App: http://<EC2_PUBLIC_IP>
+- Backend health (through Nginx): http://<EC2_PUBLIC_IP>/api
+- API routes (through Nginx): http://<EC2_PUBLIC_IP>/api/videos
+- Direct backend container check:
+  docker compose -f docker-compose.ec2.yml logs backend
+
+6) Operations
+- Restart services:
+  docker compose -f docker-compose.ec2.yml restart
+- Stop services:
+  docker compose -f docker-compose.ec2.yml down
+- Update after code change:
+  docker compose -f docker-compose.ec2.yml up -d --build
+
+7) PM2 note
+- PM2 is enabled inside backend container using backend/ecosystem.config.cjs
+- Container command uses pm2-runtime, which is production-safe for Docker.
