@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import resourceRoutes from './routes/resources.js';
 import providersRoute from './routes/providers.js';
@@ -18,9 +21,18 @@ app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/providers', providersRoute);
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ message: 'WADL Library backend is running' });
 });
+
+// Serve the built frontend (wad_library/dist) from the same server.
+const distDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../wad_library/dist');
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+  app.get(/^\/(?!api\/).*/, (req, res) => {
+    res.sendFile(path.join(distDir, 'index.html'));
+  });
+}
 
 async function start() {
   if (!process.env.MONGO_URI) {
