@@ -1,0 +1,76 @@
+.opac-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--dark-navy) 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 30px rgba(27, 42, 74, 0.2);
+}
+
+.opac-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1 1 320px;
+}
+
+.opac-icon {
+  font-size: 2.6rem;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+.opac-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.opac-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.5;
+}
+
+.opac-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.opac-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.4rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.opac-btn:hover {
+  transform: translateY(-2px);
+}
+
+.opac-btn.primary {
+  background: var(--orange);
+  color: white;
+}
+
+.opac-btn.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.opac-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

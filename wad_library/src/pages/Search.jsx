@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { FiSearch, FiExternalLink, FiTrendingUp } from 'react-icons/fi';
 import { apiFetch } from '../api';
 import ProviderLogo from '../components/ProviderLogo';
+import OpacLinks from '../components/OpacLinks';
 import './Search.css';
 
 const trendingSearches = [
@@ -105,6 +106,7 @@ export default function Search() {
 
       <section className="search-content">
         <div className="search-container">
+          <div className="search-opac"><OpacLinks /></div>
           {/* Provider Filter Sidebar */}
           <aside className="search-sidebar">
             <div className="sidebar-card">

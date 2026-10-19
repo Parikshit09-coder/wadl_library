@@ -1,5 +1,4 @@
-import { FiBook, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
-import { FaTwitter, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
@@ -9,18 +8,12 @@ export default function Footer() {
       <div className="footer-container">
         <div className="footer-section footer-brand">
           <div className="footer-logo">
-            <FiBook className="footer-logo-icon" />
-            <span>PICT Library</span>
+            <img src="/pict-emblem.png" alt="PICT logo" className="footer-logo-img" />
+            <span>PICT Central Library</span>
           </div>
           <p className="footer-description">
             Empowering PICT students and faculty with seamless access to world-class research resources across IEEE, Google Scholar, and more.
           </p>
-          <div className="footer-social">
-            <a href="#" aria-label="Twitter"><FaTwitter /></a>
-            <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
-            <a href="#" aria-label="Instagram"><FaInstagram /></a>
-            <a href="#" aria-label="YouTube"><FaYoutube /></a>
-          </div>
         </div>
 
         <div className="footer-section">
@@ -54,7 +47,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2026 PICT Library Portal. All rights reserved.</p>
+        <p>&copy; 2026 PICT Central Library Digital Portal. All rights reserved.</p>
       </div>
     </footer>
   );

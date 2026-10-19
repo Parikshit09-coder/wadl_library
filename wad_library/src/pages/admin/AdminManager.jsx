@@ -113,7 +113,7 @@ export default function AdminManager() {
                   <tr key={a.id}>
                     <td className="table-title">{a.name}{a.id === user?.id && ' (you)'}</td>
                     <td>{a.email}</td>
-                    <td>{a.createdAt ? new Date(a.createdAt).toLocaleDateString() : '—'}</td>
+                    <td>{a.createdAt ? new Date(a.createdAt).toLocaleDateString() : 'N/A'}</td>
                     <td>
                       <div className="table-actions">
                         <button className="action-btn edit" onClick={() => handleResetPassword(a)} title="Reset password"><FiKey /></button>

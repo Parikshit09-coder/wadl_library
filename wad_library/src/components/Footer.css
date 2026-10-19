@@ -127,3 +127,10 @@
     gap: 2rem;
   }
 }
+
+.footer-logo-img {
+  border-radius: 50%;
+  background: #fff;
+  height: 48px;
+  width: auto;
+}

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FiBook, FiMenu, FiX, FiLogOut, FiShield } from 'react-icons/fi';
+import { FiMenu, FiX, FiLogOut, FiShield } from 'react-icons/fi';
 import { useState } from 'react';
 import './Navbar.css';
 
@@ -19,8 +19,11 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-          <FiBook className="logo-icon" />
-          <span className="logo-text">PICT Library</span>
+          <img src="/pict-emblem.png" alt="PICT logo" className="logo-img" />
+          <span className="logo-text">
+            <span className="logo-title">PICT Central Library</span>
+            <span className="logo-sub">Digital Portal</span>
+          </span>
         </Link>
 
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>

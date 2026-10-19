@@ -7,6 +7,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import resourceRoutes from './routes/resources.js';
+import statsRoutes from './routes/stats.js';
 import providersRoute from './routes/providers.js';
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
+app.use('/api/stats', statsRoutes);
 app.use('/api/providers', providersRoute);
 
 app.get('/api', (req, res) => {

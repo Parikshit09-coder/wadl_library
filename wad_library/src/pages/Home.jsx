@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { MdLocalLibrary, MdScience, MdSchool, MdArticle } from 'react-icons/md';
+import { MdScience, MdSchool, MdArticle } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiSearch, FiPlay, FiBookOpen, FiDatabase, FiUsers } from 'react-icons/fi';
 import ProviderLogo from '../components/ProviderLogo';
+import OpacLinks from '../components/OpacLinks';
+import { trackVisit } from '../visits';
 import { apiFetch } from '../api';
 import './Home.css';
 
@@ -10,6 +12,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [providers, setProviders] = useState([]);
   const [resources, setResources] = useState([]);
+  const [visits, setVisits] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -33,6 +36,10 @@ export default function Home() {
     loadData();
   }, []);
 
+  useEffect(() => {
+    trackVisit().then(setVisits);
+  }, []);
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -44,7 +51,7 @@ export default function Home() {
     { icon: <FiBookOpen />, value: '10M+', label: 'Research Papers' },
     { icon: <FiDatabase />, value: providers.length.toString(), label: 'Providers' },
     { icon: <FiPlay />, value: `${resources.length}`, label: 'E-Resources' },
-    { icon: <FiUsers />, value: '5000+', label: 'Students Served' },
+    { icon: <FiUsers />, value: visits === null ? '...' : visits.toLocaleString('en-IN'), label: 'Total Visits' },
   ];
 
   return (
@@ -58,9 +65,8 @@ export default function Home() {
         </div>
         <div className="hero-container">
           <div className="hero-content">
-            <span className="hero-badge"><MdLocalLibrary className="hero-badge-icon" /> PICT Library Portal</span>
-            <h1>Discover Research <span className="highlight">Papers</span> Across Multiple Platforms</h1>
-            <p>Search IEEE, Google Scholar, arXiv, and more — all from one place. Browse the e-resources available at the PICT Central Library.</p>
+            <h1>Single window access to library information, e-resources and <span className="highlight">research papers</span></h1>
+            <p>Search IEEE, Google Scholar, arXiv, and more, all from one place. Browse subscribed and open access resources, all in one place.</p>
             <form className="hero-search" onSubmit={handleSearch}>
               <div className="search-input-wrapper">
                 <FiSearch className="search-icon" />
@@ -127,6 +133,7 @@ export default function Home() {
             <h2>Search Across <span className="highlight">Top Platforms</span></h2>
             <p>Access millions of research papers from the world's most trusted academic databases</p>
           </div>
+          <OpacLinks />
           <div className="providers-grid">
             {providers.map((provider) => (
               <a
