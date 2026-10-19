@@ -23,6 +23,16 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/providers', providersRoute);
 
+// Health check: reports whether MongoDB is reachable right now.
+app.get('/api/health', async (req, res) => {
+  try {
+    await mongoose.connection.db.admin().ping();
+    res.json({ status: 'ok', db: 'connected', uptimeSeconds: Math.round(process.uptime()) });
+  } catch (error) {
+    res.status(503).json({ status: 'error', db: 'unreachable', message: error.message });
+  }
+});
+
 app.get('/api', (req, res) => {
   res.json({ message: 'WADL Library backend is running' });
 });
@@ -36,6 +46,19 @@ if (fs.existsSync(distDir)) {
   });
 }
 
+const KEEPALIVE_INTERVAL_MS = 30 * 1000;
+
+// Pings MongoDB regularly so idle connections are not dropped by Atlas or the network.
+function startMongoKeepAlive() {
+  setInterval(async () => {
+    try {
+      await mongoose.connection.db.admin().ping();
+    } catch (error) {
+      console.error(`[${new Date().toISOString()}] MongoDB keep-alive ping failed:`, error.message);
+    }
+  }, KEEPALIVE_INTERVAL_MS);
+}
+
 async function start() {
   if (!process.env.MONGO_URI) {
     console.error('Missing MONGO_URI in environment');
@@ -45,6 +68,7 @@ async function start() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
+    startMongoKeepAlive();
 
     app.listen(PORT, () => {
       console.log(`Backend server listening on http://localhost:${PORT}`);
