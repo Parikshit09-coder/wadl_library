@@ -114,3 +114,9 @@
     padding: 1rem 1.2rem;
   }
 }
+
+.video-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

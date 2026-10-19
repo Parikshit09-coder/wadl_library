@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { MdSearch } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 import { FiSearch, FiExternalLink, FiTrendingUp } from 'react-icons/fi';
 import { apiFetch } from '../api';
@@ -145,7 +146,7 @@ export default function Search() {
           <main className="search-results">
             {!hasSearched ? (
               <div className="search-empty">
-                <div className="search-empty-icon">🔍</div>
+                <div className="search-empty-icon"><MdSearch /></div>
                 <h2>Start Your Research</h2>
                 <p>Enter a topic above to search across all selected providers simultaneously</p>
               </div>

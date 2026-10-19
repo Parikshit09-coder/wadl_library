@@ -526,3 +526,13 @@
   .section-header h2 { font-size: 1.6rem; }
   .cta-container h2 { font-size: 1.6rem; }
 }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-badge-icon {
+  font-size: 1.1em;
+}

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FiBook, FiMenu, FiX, FiLogOut, FiUser, FiShield } from 'react-icons/fi';
+import { FiBook, FiMenu, FiX, FiLogOut, FiShield } from 'react-icons/fi';
 import { useState } from 'react';
 import './Navbar.css';
 
@@ -29,14 +29,13 @@ export default function Navbar() {
 
         <ul className={`navbar-links ${menuOpen ? 'active' : ''}`}>
           <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-          <li><Link to="/videos" onClick={() => setMenuOpen(false)}>Tutorials</Link></li>
+          <li><Link to="/resources" onClick={() => setMenuOpen(false)}>E-Resources</Link></li>
           <li><Link to="/search" onClick={() => setMenuOpen(false)}>Search Papers</Link></li>
           {isAdmin && (
             <li><Link to="/admin" className="admin-link" onClick={() => setMenuOpen(false)}><FiShield /> Admin</Link></li>
           )}
           {user ? (
             <li className="user-section">
-              <span className="user-name"><FiUser /> {user.name}</span>
               <button className="logout-btn" onClick={handleLogout}><FiLogOut /> Logout</button>
             </li>
           ) : (

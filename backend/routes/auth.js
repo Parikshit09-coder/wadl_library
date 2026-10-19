@@ -117,4 +117,38 @@ router.post('/admins', requireAdminAuth, async (req, res) => {
   }
 });
 
+router.put('/admins/:id/password', requireAdminAuth, async (req, res) => {
+  const { password } = req.body;
+  if (!password || password.length < 8) {
+    return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+  }
+
+  try {
+    const passwordHash = await bcrypt.hash(password, 12);
+    const admin = await Admin.findByIdAndUpdate(req.params.id, { passwordHash }, { new: true });
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    return res.json({ message: 'Password updated' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to update password', error: error.message });
+  }
+});
+
+router.delete('/admins/:id', requireAdminAuth, async (req, res) => {
+  if (req.params.id === req.user.id) {
+    return res.status(400).json({ message: 'You cannot remove your own admin account' });
+  }
+
+  try {
+    const admin = await Admin.findByIdAndUpdate(req.params.id, { isActive: false }, { new: true });
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    return res.json({ message: 'Admin removed' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Failed to remove admin', error: error.message });
+  }
+});
+
 export default router;

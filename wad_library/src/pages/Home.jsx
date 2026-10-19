@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
+import { MdLocalLibrary, MdScience, MdSchool, MdArticle } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiSearch, FiPlay, FiBookOpen, FiDatabase, FiUsers, FiArrowRight } from 'react-icons/fi';
-import VideoCard from '../components/VideoCard';
-import VideoModal from '../components/VideoModal';
+import { FiSearch, FiPlay, FiBookOpen, FiDatabase, FiUsers } from 'react-icons/fi';
 import ProviderLogo from '../components/ProviderLogo';
 import { apiFetch } from '../api';
 import './Home.css';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedVideo, setSelectedVideo] = useState(null);
   const [providers, setProviders] = useState([]);
-  const [videos, setVideos] = useState([]);
+  const [resources, setResources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -20,12 +18,12 @@ export default function Home() {
     const loadData = async () => {
       setLoading(true);
       try {
-        const [providerData, videoData] = await Promise.all([
+        const [providerData, resourceData] = await Promise.all([
           apiFetch('/providers'),
-          apiFetch('/videos'),
+          apiFetch('/resources'),
         ]);
         setProviders(providerData);
-        setVideos(videoData);
+        setResources(resourceData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -42,12 +40,10 @@ export default function Home() {
     }
   };
 
-  const featuredVideos = videos.slice(0, 4);
-
   const stats = [
     { icon: <FiBookOpen />, value: '10M+', label: 'Research Papers' },
     { icon: <FiDatabase />, value: providers.length.toString(), label: 'Providers' },
-    { icon: <FiPlay />, value: `${videos.length}`, label: 'Tutorial Videos' },
+    { icon: <FiPlay />, value: `${resources.length}`, label: 'E-Resources' },
     { icon: <FiUsers />, value: '5000+', label: 'Students Served' },
   ];
 
@@ -62,9 +58,9 @@ export default function Home() {
         </div>
         <div className="hero-container">
           <div className="hero-content">
-            <span className="hero-badge">📚 PICT Library Portal</span>
+            <span className="hero-badge"><MdLocalLibrary className="hero-badge-icon" /> PICT Library Portal</span>
             <h1>Discover Research <span className="highlight">Papers</span> Across Multiple Platforms</h1>
-            <p>Search IEEE, Google Scholar, arXiv, and more — all from one place. Watch video tutorials to learn how to access and use institutional research resources.</p>
+            <p>Search IEEE, Google Scholar, arXiv, and more — all from one place. Browse the e-resources available at the PICT Central Library.</p>
             <form className="hero-search" onSubmit={handleSearch}>
               <div className="search-input-wrapper">
                 <FiSearch className="search-icon" />
@@ -89,15 +85,15 @@ export default function Home() {
           </div>
           <div className="hero-illustration">
             <div className="hero-card card-1">
-              <div className="hero-card-icon">🔬</div>
+              <div className="hero-card-icon"><MdScience /></div>
               <span>IEEE Xplore</span>
             </div>
             <div className="hero-card card-2">
-              <div className="hero-card-icon">🎓</div>
+              <div className="hero-card-icon"><MdSchool /></div>
               <span>Google Scholar</span>
             </div>
             <div className="hero-card card-3">
-              <div className="hero-card-icon">📄</div>
+              <div className="hero-card-icon"><MdArticle /></div>
               <span>arXiv</span>
             </div>
             <div className="books-stack">
@@ -153,27 +149,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Videos Section */}
-      <section className="featured-videos-section">
-        <div className="section-container">
-          <div className="section-header">
-            <span className="section-badge">Video Tutorials</span>
-            <h2>Learn How to <span className="highlight">Access Resources</span></h2>
-            <p>Step-by-step guides to help you navigate and download research papers</p>
-          </div>
-          <div className="featured-videos-grid">
-            {featuredVideos.map((video) => (
-              <VideoCard key={video.id} video={video} onClick={setSelectedVideo} />
-            ))}
-          </div>
-          <div className="section-footer">
-            <Link to="/videos" className="view-all-btn">
-              View All Tutorials <FiArrowRight />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="cta-section">
         <div className="cta-container">
@@ -181,12 +156,10 @@ export default function Home() {
           <p>Sign in with your PICT credentials and start searching across all platforms.</p>
           <div className="cta-buttons">
             <Link to="/search" className="cta-btn primary">Start Searching</Link>
-            <Link to="/videos" className="cta-btn secondary">Watch Tutorials</Link>
+            <Link to="/resources" className="cta-btn secondary">View E-Resources</Link>
           </div>
         </div>
       </section>
-
-      {selectedVideo && <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
     </div>
   );
 }

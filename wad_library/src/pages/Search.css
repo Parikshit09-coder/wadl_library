@@ -324,3 +324,9 @@
   .search-main-btn { border-radius: 12px; }
   .results-grid { grid-template-columns: 1fr; }
 }
+
+.search-empty-icon {
+  display: flex;
+  justify-content: center;
+  color: #c4c4c4;
+}

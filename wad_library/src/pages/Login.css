@@ -265,3 +265,8 @@
   .login-left { display: none; }
   .login-right { min-height: 100vh; }
 }
+
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+}

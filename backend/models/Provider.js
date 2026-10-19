@@ -9,7 +9,7 @@ const providerSchema = new mongoose.Schema(
     baseUrl: { type: String, required: true, trim: true },
     searchUrl: { type: String, required: true, trim: true },
     color: { type: String, default: '#1B2A4A', trim: true },
-    icon: { type: String, default: '📚', trim: true },
+    icon: { type: String, default: 'LIB', trim: true },
   },
   {
     timestamps: true,

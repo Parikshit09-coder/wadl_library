@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { MdSearch, MdPlayCircle, MdAdminPanelSettings } from 'react-icons/md';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FiMail, FiLock, FiLogIn, FiAlertCircle } from 'react-icons/fi';
@@ -38,11 +39,11 @@ export default function Login() {
       <div className="login-left">
         <div className="login-left-content">
           <h1>Welcome to<br /><span className="highlight">PICT Library</span></h1>
-          <p>Access research papers from IEEE, Google Scholar, and more. Watch tutorials to learn how to use institutional resources.</p>
+          <p>Access research papers from IEEE, Google Scholar, and more. Browse the e-resources available at the library.</p>
           <div className="login-features">
-            <div className="login-feature"><span className="feature-icon">🔍</span><span>Search across multiple platforms</span></div>
-            <div className="login-feature"><span className="feature-icon">📹</span><span>Video tutorials for every platform</span></div>
-            <div className="login-feature"><span className="feature-icon">📚</span><span>Secure admin access for video management</span></div>
+            <div className="login-feature"><span className="feature-icon"><MdSearch /></span><span>Search across multiple platforms</span></div>
+            <div className="login-feature"><span className="feature-icon"><MdPlayCircle /></span><span>E-resources available at the library</span></div>
+            <div className="login-feature"><span className="feature-icon"><MdAdminPanelSettings /></span><span>Secure admin access for resource management</span></div>
           </div>
         </div>
       </div>
@@ -51,7 +52,7 @@ export default function Login() {
         <div className="login-form-container">
           <div className="login-form-header">
             <h2>Admin Sign In</h2>
-            <p>Enter admin credentials to manage tutorial videos</p>
+            <p>Enter admin credentials to manage e-resources</p>
           </div>
 
           {error && (
