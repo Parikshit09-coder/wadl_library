@@ -34,19 +34,6 @@
   display: block;
 }
 
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.logo-sub {
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .logo-icon {
   font-size: 1.6rem;
   color: var(--orange);

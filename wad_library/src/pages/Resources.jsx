@@ -71,9 +71,9 @@ export default function Resources() {
                 <tbody>
                   {filtered.map((r, i) => (
                     <tr key={r.id}>
-                      <td>{i + 1}</td>
-                      <td className="resources-particulars">{r.particulars}</td>
-                      <td>
+                      <td data-label="Sr. No.">{i + 1}</td>
+                      <td className="resources-particulars" data-label="Particulars">{r.particulars}</td>
+                      <td data-label="Link">
                         {r.url ? (
                           <a
                             href={r.url}
@@ -89,7 +89,7 @@ export default function Resources() {
                           <span className="resources-empty" title="Not added yet"><FiLink /></span>
                         )}
                       </td>
-                      <td>
+                      <td data-label="Video">
                         {r.videoUrl ? (
                           <button
                             className="resources-yt"
@@ -103,7 +103,7 @@ export default function Resources() {
                           <span className="resources-empty" title="Not added yet"><FaYoutube /></span>
                         )}
                       </td>
-                      <td>
+                      <td data-label="Description">
                         {r.description || (
                           <span className="resources-empty plain" title="Not added yet"><FiMinusCircle /></span>
                         )}

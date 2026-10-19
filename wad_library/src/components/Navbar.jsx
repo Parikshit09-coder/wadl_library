@@ -20,10 +20,7 @@ export default function Navbar() {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
           <img src="/pict-emblem.png" alt="PICT logo" className="logo-img" />
-          <span className="logo-text">
-            <span className="logo-title">PICT Central Library</span>
-            <span className="logo-sub">Digital Portal</span>
-          </span>
+          <span className="logo-text">PICT Digital Library</span>
         </Link>
 
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>

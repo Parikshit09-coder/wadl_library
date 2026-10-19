@@ -182,3 +182,81 @@
   justify-content: flex-start;
   cursor: default;
 }
+
+/* Phones: show each row as a card so no column is hidden off screen */
+@media (max-width: 640px) {
+  .resources-container {
+    padding: 0 1rem;
+  }
+
+  .resources-hero {
+    padding: 4rem 1rem 3rem;
+  }
+
+  .resources-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .resources-table-wrapper {
+    background: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .resources-table,
+  .resources-table tbody,
+  .resources-table tr,
+  .resources-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .resources-table thead {
+    display: none;
+  }
+
+  .resources-table tr {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 0.4rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .resources-table td,
+  .resources-table td:first-child,
+  .resources-table th:nth-child(3),
+  .resources-table td:nth-child(3),
+  .resources-table td:nth-child(4),
+  .resources-table td:nth-child(2),
+  .resources-table td:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: auto;
+    min-width: 0;
+    text-align: right;
+    padding: 0.7rem 1.1rem;
+    border-bottom: 1px solid rgba(27, 42, 74, 0.06);
+  }
+
+  .resources-table td:last-child {
+    border-bottom: none;
+  }
+
+  .resources-table td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    text-align: left;
+  }
+
+  .resources-table td.resources-particulars {
+    font-weight: 600;
+  }
+}

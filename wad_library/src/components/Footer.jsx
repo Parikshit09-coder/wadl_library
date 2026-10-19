@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="footer-section footer-brand">
           <div className="footer-logo">
             <img src="/pict-emblem.png" alt="PICT logo" className="footer-logo-img" />
-            <span>PICT Central Library</span>
+            <span>PICT Digital Library</span>
           </div>
           <p className="footer-description">
             Empowering PICT students and faculty with seamless access to world-class research resources across IEEE, Google Scholar, and more.
@@ -47,7 +47,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2026 PICT Central Library Digital Portal. All rights reserved.</p>
+        <p>&copy; 2026 PICT Digital Library. All rights reserved.</p>
       </div>
     </footer>
   );

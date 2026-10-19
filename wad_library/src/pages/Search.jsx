@@ -88,6 +88,7 @@ export default function Search() {
           <h1>Search Research Papers <span className="highlight">Everywhere</span></h1>
           <p>One search, multiple platforms. Find papers across IEEE, Google Scholar, arXiv, and more.</p>
 
+          <div className="search-hero-row">
           <form className="search-main-form" onSubmit={handleSearch}>
             <div className="search-main-input-wrap">
               <FiSearch className="search-main-icon" />
@@ -101,12 +102,13 @@ export default function Search() {
             </div>
             <button type="submit" className="search-main-btn" id="search-page-btn">Search All</button>
           </form>
+          <OpacLinks compact />
+          </div>
         </div>
       </section>
 
       <section className="search-content">
         <div className="search-container">
-          <div className="search-opac"><OpacLinks /></div>
           {/* Provider Filter Sidebar */}
           <aside className="search-sidebar">
             <div className="sidebar-card">
