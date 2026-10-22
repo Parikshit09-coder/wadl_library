@@ -18,6 +18,11 @@
   box-sizing: border-box;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -106,6 +111,7 @@ button {
 
 /* ===== PAGE TRANSITIONS ===== */
 .page-wrapper {
+  min-width: 0;
   animation: pageIn 0.4s ease;
 }
 

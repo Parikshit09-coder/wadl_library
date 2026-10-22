@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { FiList, FiPlus, FiVideo, FiUsers } from 'react-icons/fi';
+import { FiList, FiPlus, FiVideo, FiUsers, FiBarChart2 } from 'react-icons/fi';
 import { apiFetch } from '../../api';
 import './Admin.css';
 
@@ -28,6 +28,9 @@ export default function Dashboard() {
           <p>Welcome back, <strong>{user?.name}</strong></p>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <Link to="/admin/report" className="admin-btn secondary">
+            <FiBarChart2 /> Visit Report
+          </Link>
           <Link to="/admin/admins" className="admin-btn secondary">
             <FiUsers /> Manage Admins
           </Link>

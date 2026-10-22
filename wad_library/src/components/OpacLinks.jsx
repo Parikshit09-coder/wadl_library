@@ -4,7 +4,26 @@ import './OpacLinks.css';
 const OPAC_IN_CAMPUS = 'http://10.10.9.231:8018/autolibwebopac/Login.aspx';
 const OPAC_OFF_CAMPUS = 'http://103.97.166.170:8018/autolibwebopac/Login.aspx';
 
-export default function OpacLinks({ compact = false }) {
+export default function OpacLinks({ compact = false, bar = false }) {
+  if (bar) {
+    return (
+      <div className="opac-bar">
+        <div className="opac-bar-inner">
+          <span className="opac-bar-title"><MdLocalLibrary /> Library Web-OPAC</span>
+          <span className="opac-bar-desc">Search the catalogue, renew and reserve books. Login with your ERP Enrollment No.</span>
+          <div className="opac-bar-actions">
+            <a href={OPAC_IN_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn primary small">
+              <MdWifi /> In Campus
+            </a>
+            <a href={OPAC_OFF_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn secondary small">
+              <MdPublic /> Out of Campus
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (compact) {
     return (
       <div className="opac-compact">

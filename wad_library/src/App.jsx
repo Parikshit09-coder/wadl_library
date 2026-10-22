@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
+import OpacLinks from './components/OpacLinks';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Resources from './pages/Resources';
@@ -10,11 +11,13 @@ import Login from './pages/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ResourceManager from './pages/admin/ResourceManager';
 import AdminManager from './pages/admin/AdminManager';
+import Report from './pages/admin/Report';
 
-function AppLayout({ children, hideNav = false }) {
+function AppLayout({ children, hideNav = false, opac = false }) {
   return (
     <>
       {!hideNav && <Navbar />}
+      {opac && <OpacLinks bar />}
       <div className="page-wrapper">
         {children}
       </div>
@@ -30,7 +33,7 @@ export default function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<AppLayout><Home /></AppLayout>} />
-          <Route path="/resources" element={<AppLayout><Resources /></AppLayout>} />
+          <Route path="/resources" element={<AppLayout opac><Resources /></AppLayout>} />
           <Route path="/search" element={<AppLayout><Search /></AppLayout>} />
           <Route path="/login" element={<AppLayout hideNav><Login /></AppLayout>} />
 
@@ -53,6 +56,13 @@ export default function App() {
             <AppLayout>
               <ProtectedRoute adminOnly>
                 <AdminManager />
+              </ProtectedRoute>
+            </AppLayout>
+          } />
+          <Route path="/admin/report" element={
+            <AppLayout>
+              <ProtectedRoute adminOnly>
+                <Report />
               </ProtectedRoute>
             </AppLayout>
           } />

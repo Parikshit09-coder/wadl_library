@@ -322,6 +322,7 @@
   .search-hero h1 { font-size: 1.8rem; }
   .search-main-form { flex-direction: column; border-radius: 16px; }
   .search-main-btn { border-radius: 12px; }
+  .search-main-input-wrap { padding: 12px 1rem; }
   .results-grid { grid-template-columns: 1fr; }
 }
 

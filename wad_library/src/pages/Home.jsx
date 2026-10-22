@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { MdScience, MdSchool, MdArticle } from 'react-icons/md';
+import { MdScience, MdSchool, MdArticle, MdLocalLibrary, MdWifi, MdPublic } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiSearch, FiPlay, FiBookOpen, FiDatabase, FiUsers } from 'react-icons/fi';
-import ProviderLogo from '../components/ProviderLogo';
 import OpacLinks from '../components/OpacLinks';
+import ProviderLogo from '../components/ProviderLogo';
 import { trackVisit } from '../visits';
 import { apiFetch } from '../api';
 import './Home.css';
@@ -67,6 +67,7 @@ export default function Home() {
           <div className="hero-content">
             <h1>Single window access to library information, e-resources and <span className="highlight">research papers</span></h1>
             <p>Search IEEE, Google Scholar, arXiv, and more, all from one place. Browse subscribed and open access resources, all in one place.</p>
+            <div className="opac-mobile"><OpacLinks bar /></div>
             <form className="hero-search" onSubmit={handleSearch}>
               <div className="search-input-wrapper">
                 <FiSearch className="search-icon" />
@@ -102,6 +103,14 @@ export default function Home() {
               <div className="hero-card-icon"><MdArticle /></div>
               <span>arXiv</span>
             </div>
+            <div className="hero-card card-opac">
+              <div className="opac-card-title"><MdLocalLibrary /> Library Web-OPAC</div>
+              <p>Search, renew and reserve books</p>
+              <div className="opac-card-links">
+                <a href="http://10.10.9.231:8018/autolibwebopac/Login.aspx" target="_blank" rel="noopener noreferrer"><MdWifi /> In Campus</a>
+                <a href="http://103.97.166.170:8018/autolibwebopac/Login.aspx" target="_blank" rel="noopener noreferrer" className="alt"><MdPublic /> Out of Campus</a>
+              </div>
+            </div>
             <div className="books-stack">
               <div className="book book-1"></div>
               <div className="book book-2"></div>
@@ -133,7 +142,6 @@ export default function Home() {
             <h2>Search Across <span className="highlight">Top Platforms</span></h2>
             <p>Access millions of research papers from the world's most trusted academic databases</p>
           </div>
-          <OpacLinks />
           <div className="providers-grid">
             {providers.map((provider) => (
               <a

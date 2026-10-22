@@ -181,3 +181,48 @@
     flex: 1 1 140px;
   }
 }
+
+/* ===== OPAC BAR (below navbar) ===== */
+.opac-bar {
+  background: var(--dark-navy);
+  color: white;
+  padding: 0.6rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.opac-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.opac-bar-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.opac-bar-desc {
+  flex: 1;
+  min-width: 200px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.opac-bar-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .opac-bar { padding: 0.6rem 1rem; }
+  .opac-bar-desc { display: none; }
+  .opac-bar-inner { justify-content: space-between; }
+}
