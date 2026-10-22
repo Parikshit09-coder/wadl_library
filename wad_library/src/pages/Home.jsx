@@ -107,8 +107,14 @@ export default function Home() {
               <div className="opac-card-title"><MdLocalLibrary /> Library Web-OPAC</div>
               <p>Search, renew and reserve books</p>
               <div className="opac-card-links">
-                <a href="http://10.10.9.231:8018/autolibwebopac/Login.aspx" target="_blank" rel="noopener noreferrer"><MdWifi /> In Campus</a>
-                <a href="http://103.97.166.170:8018/autolibwebopac/Login.aspx" target="_blank" rel="noopener noreferrer" className="alt"><MdPublic /> Out of Campus</a>
+                <div className="opac-card-option">
+                  <a href="http://10.10.9.231:8018/autolibwebopac/Login.aspx" target="_blank" rel="noopener noreferrer"><MdWifi /> In Campus</a>
+                  <span className="opac-card-hint">Connected to PICT college Wi-Fi</span>
+                </div>
+                <div className="opac-card-option">
+                  <a href="http://103.97.166.170:8018/autolibwebopac/Login.aspx" target="_blank" rel="noopener noreferrer" className="alt"><MdPublic /> Off Campus</a>
+                  <span className="opac-card-hint">Other internet sources</span>
+                </div>
               </div>
             </div>
             <div className="books-stack">

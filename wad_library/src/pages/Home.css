@@ -224,8 +224,10 @@
 .opac-card-title { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; color: var(--navy); }
 .opac-card-title svg { color: var(--orange); font-size: 2rem; }
 .card-opac p { margin: 0; font-size: 0.95rem; font-weight: 400; color: #777; }
-.opac-card-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-.opac-card-links a { display: inline-flex; align-items: center; gap: 4px; padding: 10px 18px; border-radius: 24px; background: var(--orange); color: white; font-size: 0.9rem; text-decoration: none; transition: transform 0.2s; }
+.opac-card-links { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.opac-card-option { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.opac-card-hint { font-size: 0.78rem; font-weight: 400; color: #777; }
+.opac-card-links a { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; padding: 10px 18px; border-radius: 24px; background: var(--orange); color: white; font-size: 0.9rem; text-decoration: none; transition: transform 0.2s; }
 .opac-card-links a.alt { background: var(--navy); }
 .opac-card-links a:hover { transform: translateY(-2px); }
 

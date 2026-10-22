@@ -12,12 +12,18 @@ export default function OpacLinks({ compact = false, bar = false }) {
           <span className="opac-bar-title"><MdLocalLibrary /> Library Web-OPAC</span>
           <span className="opac-bar-desc">Search the catalogue, renew and reserve books. Login with your ERP Enrollment No.</span>
           <div className="opac-bar-actions">
-            <a href={OPAC_IN_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn primary small">
-              <MdWifi /> In Campus
-            </a>
-            <a href={OPAC_OFF_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn secondary small">
-              <MdPublic /> Out of Campus
-            </a>
+            <div className="opac-option">
+              <a href={OPAC_IN_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn primary small">
+                <MdWifi /> In Campus
+              </a>
+              <span className="opac-hint">Connected to PICT college Wi-Fi</span>
+            </div>
+            <div className="opac-option">
+              <a href={OPAC_OFF_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn secondary small">
+                <MdPublic /> Off Campus
+              </a>
+              <span className="opac-hint">Other internet sources</span>
+            </div>
           </div>
         </div>
       </div>
@@ -38,13 +44,13 @@ export default function OpacLinks({ compact = false, bar = false }) {
             <a href={OPAC_IN_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn primary small">
               <MdWifi /> In Campus
             </a>
-            <span className="opac-hint">Connected to the college network</span>
+            <span className="opac-hint">Connected to PICT college Wi-Fi</span>
           </div>
           <div className="opac-option">
             <a href={OPAC_OFF_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn secondary small">
-              <MdPublic /> Out of Campus
+              <MdPublic /> Off Campus
             </a>
-            <span className="opac-hint">From home or any other network</span>
+            <span className="opac-hint">Other internet sources</span>
           </div>
         </div>
       </div>
@@ -65,13 +71,13 @@ export default function OpacLinks({ compact = false, bar = false }) {
           <a href={OPAC_IN_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn primary">
             <MdWifi /> In Campus
           </a>
-          <span className="opac-hint">Use when connected to the college network</span>
+          <span className="opac-hint">Use when connected to PICT college Wi-Fi</span>
         </div>
         <div className="opac-option">
           <a href={OPAC_OFF_CAMPUS} target="_blank" rel="noopener noreferrer" className="opac-btn secondary">
-            <MdPublic /> Out of Campus
+            <MdPublic /> Off Campus
           </a>
-          <span className="opac-hint">Use from home or any other network</span>
+          <span className="opac-hint">Use on other internet sources</span>
         </div>
       </div>
     </div>
